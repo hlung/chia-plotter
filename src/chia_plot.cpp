@@ -28,6 +28,12 @@
 	#define GETPID() int(-1)
 #endif
 
+std::string secondsAndHoursString(const int64_t micros)
+{
+	const int64_t sec = micros / 1e6;
+	const int64_t hour = sec / 3600;
+	return std::to_string(sec) + " sec (" + std::to_string(hour) + " hrs)"
+}
 
 inline
 phase4::output_t create_plot(	const int num_threads,
@@ -101,10 +107,11 @@ phase4::output_t create_plot(	const int num_threads,
 	phase4::compute(out_3, out_4, num_threads, log_num_buckets, plot_name, tmp_dir, tmp_dir_2);
 	
 	std::cout << "Total plot creation time was "
-			<< (get_wall_time_micros() - total_begin) / 1e6 << " sec" << std::endl;
+			<< secondsAndHoursString(get_wall_time_micros() - total_begin)
+			<< std::endl;
+
 	return out_4;
 }
-
 
 int main(int argc, char** argv)
 {
